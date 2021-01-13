@@ -1,0 +1,19 @@
+clearvars;
+%% INITIALIZE MATLAB PATH
+
+%Get Main Drive, Code, and Data Dirs
+[dirs, fnames] = setupPaths; %setupPaths
+% sessions = getSessionInfo(dirs);
+
+%Convert all DLC Data/Load into Structure
+getFileListDLC();
+
+%Do separately for T55, T57, T60 & T63
+getFileListDLC();
+%Load tracking data for each session
+[fnames, matfiles] = getSessionInfo(dirs,fnames);
+data.tracking = parseDLCFile(datapath,fnames.tracking);
+
+laser = load(fullfile(datapath, fnames.laser));
+noLaser = load(fullfile(datapath, fnames.noLaser));
+data = struct('laser',laser.data,'noLaser',noLaser.data);

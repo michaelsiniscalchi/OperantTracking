@@ -1,0 +1,16 @@
+function [ dirs, fnames ] = setupPaths()
+ 
+%Get Main Drive, Code, and Data Dirs
+dirs = getRoots();
+addpath(dirs.code);
+dirs.code = fullfile(dirs.code,'OperantTracking');
+dirs.data = fullfile(dirs.root,'OperantTracking');
+
+%Load summary file for subject
+fnames.laser = 'laserSummary_TAB.mat';
+fnames.noLaser = 'noLaserSummary_TAB.mat';
+fnames.qLearn = 'qLearn_session_final.mat';
+
+fnames.tracking = '101_e630_tab_20200630_151125DLC_resnet50_ACC_DMS_imaging_skelOct1shuffle1_450000.csv';
+
+fnames.

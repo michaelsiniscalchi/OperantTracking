@@ -1,23 +1,20 @@
-
 clearvars;
-%% INITIALIZE MATLAB PATH
 
-%***Function: getMainDrive()***
+%% Get Main Drive, Code, and Data Dirs
+[dirs, fnames] = setupPaths; %setupPaths
+% sessions = getSessionInfo(dirs);
 
-addpath(fullfile('J:','Documents','GitHub','OperantTracking'));
-datapath = 'J:\Documents\GitHub\OperantTracking\101';
-% datapath = fullfile('Z:','Michael','Tracking Analysis for JC'); %\\bucket\witten\Michael\Tracking Analysis for JC
+%% Convert all DLC Data/Load into Structure
+fnames.tracking = fileListDLC(); %Stored filenames for tracking data; or maybe just grab all
+data.tracking = parseDLCFile(datapath,fnames.tracking);
 
-%Load summary file for subject
-fname.laser = 'laserSummary_TAB.mat';
-fname.noLaser = 'noLaserSummary_TAB.mat';
-fname.tracking = '101_e630_tab_20200630_151125DLC_resnet50_ACC_DMS_imaging_skelOct1shuffle1_450000.csv';
+%Do separately for T55, T57, T60 & T63
+fnames.tracking = fileListDLC2(dirs);
+data.tracking = parseDLCFile(datapath,fnames.tracking);
 
-% fname.tracking = getSessionInfo(subject);
+%Save each struct in MAT for tracking analysis
 
-laser = load(fullfile(datapath, fname.laser));
-noLaser = load(fullfile(datapath, fname.noLaser));
-data = struct('laser',laser.data,'noLaser',noLaser.data);
-
+%% Analyze Tracking Data
 %Load tracking data for each session
-data.tracking = parseDLCFile(datapath,fname.tracking);
+% [fnames, matfiles] = getSessionInfo(dirs,fnames);
+
