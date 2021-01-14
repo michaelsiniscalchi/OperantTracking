@@ -1,19 +1,28 @@
 clearvars;
-%% INITIALIZE MATLAB PATH
 
-%Get Main Drive, Code, and Data Dirs
-[dirs, fnames] = setupPaths; %setupPaths
+%% Get Main Drive, Code, and Data Dirs
+[dirs] = setupPaths; %setupPaths
 % sessions = getSessionInfo(dirs);
 
-%Convert all DLC Data/Load into Structure
-getFileListDLC();
+%% Convert all DLC Data/Load into Structure
+subjects = ["101","102","103"];
+[fnames, dirs.data] = fileListDLC(dirs.root,subjects); %Get filenames for tracking data and corresponding behavior-related matfiles
+
+for i=1:numel(fnames.DLC)
+    beh = load(fullfile(dirs.root, dirs.data(i), fnames.beh(i)));
+    data = parseDLCFile(dirs.root,fnames.DLC(i));
+    data.t = beh.data.raw.X';
+    savename = fnames.beh{1:3}
+    save(fullfile(dirs.root, savename);
+end
 
 %Do separately for T55, T57, T60 & T63
-getFileListDLC();
-%Load tracking data for each session
-[fnames, matfiles] = getSessionInfo(dirs,fnames);
+fnames.tracking = fileListDLC2(dirs);
 data.tracking = parseDLCFile(datapath,fnames.tracking);
 
-laser = load(fullfile(datapath, fnames.laser));
-noLaser = load(fullfile(datapath, fnames.noLaser));
-data = struct('laser',laser.data,'noLaser',noLaser.data);
+%Save each struct in MAT for tracking analysis
+
+%% Analyze Tracking Data
+%Load tracking data for each session
+% [fnames, matfiles] = getSessionInfo(dirs,fnames);
+
