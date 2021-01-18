@@ -16,5 +16,5 @@ D = textscan(fID,['%*f',repmat('%f',1,nCols)],'Delimiter',','); %Extract numeric
 for i = 1:numel(bodypart)                           %fields: {tracked bodyparts}
     data_struct.(bodypart{i}).(coord{i}) = D{i};    %subfields: {'x', 'y', 'likelihood'}
 end
-disp(['Length(coord): ' num2str(size(data_struct.(bodypart{i}).(coord{i}),1))])
+disp(['parseDLCFile: ' num2str(size(data_struct.(bodypart{i}).(coord{i}),1)) 'frames.'])
 

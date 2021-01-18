@@ -1,14 +1,10 @@
 clearvars;
 
-%% Analysis Parameters
-
-%Code to execute
 params.process_DLC_files = false;
 params.calc_motor_vars = true;
 
 %Calculation of Motor Variables
 params.motor.smoothingWindow = 1; %In seconds
-params.motor.plot_validation = true; %Diagnostic plots
 
 %% Get Main Drive, Code, and Data Dirs
 [dirs] = setupPaths; %setupPaths
@@ -60,8 +56,7 @@ if params.process_DLC_files
     end
 end %if process_DLC_files
 
-%% Calculate Motor Variables
-if params.calc_motor_vars
+if params.calc_locomotor_vars
     %Sample dataset:
     fname = '101E630_TAB_DLC.mat';
     data = load(fullfile(dirs.root,'Proc Tracking Data',fname));

@@ -3,9 +3,9 @@ function dirs = setupPaths()
 %Get Main Drive and Code Dirs
 name = getenv('COMPUTERNAME');
 switch name %***EDIT to include current computer name
-    case 'homePC'
-        dirs.root = fullfile('J:','Data & Analysis');
-       
+    case 'STELLATE'
+        dirs.root = fullfile('J:','Data & Analysis','OperantTracking');
+        dirs.code = fullfile('J:','Documents','GitHub','OperantTracking');
     case 'PNI-F4W2YM2'
         dirs.root = fullfile('C:','Data','OperantTracking');
         dirs.code = fullfile('C:','Users','mjs20','Documents','GitHub','OperantTracking');
