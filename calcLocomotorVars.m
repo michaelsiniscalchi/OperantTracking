@@ -67,6 +67,12 @@ dx = [0; diff(posX)]; %Instantaneous change in x,y position
 dy = [0; diff(posY)]; 
 motor_ts.speed = distance(dx,dy)./dt; %Euclidean distance from last point/dt
 
+%Calculate view angle
+%Set center nosepoke to 0 deg
+%Use body axis (tail, body, something on head)
+%P = atan2(Y,X) and then convert to degrees
+%Beware of the range of atan and figure out how to get all quadrants accurately!
+
 %Validation Plots
 if params.plot_validation
     figure('Name','Speed_Timeseries');

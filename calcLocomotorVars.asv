@@ -3,9 +3,10 @@ function [motor_ts, motor_byTrial] = calcLocomotorVars( data, params )
 %***For DEVO***
 %Notes: 
 %   Assume 50 pix/cm...but we'll need to map out the spatial transform later bc of possible distortion
-%   
-plots.speed = true;
+%   Try median filtering the position data as a means of smoothing/removing outliers
 
+plots.speed = true;
+%---------------------------------------------------------------------------------------------------
 
 %% Check distance between bodyparts
 
@@ -14,10 +15,14 @@ distance = @(dX,dY) sqrt(sum([dX,dY].^2,2)); %For column vectors dX=X1-X2 and dY
 
 objects = ["body","left_ear","right_ear","Scope_1","Scope_2","base_of_tail"];
 [posX, posY] = deal(NaN(size(data.DLC.t,1),numel(objects))); %initialize
-for i = 1:numel(objects) %Aggregate bodypart positions and average
+for i = 1:numel(objects) %Aggregate bodypart positions
     posX(:,i) = data.DLC.(objects(i)).x;
     posY(:,i) = data.DLC.(objects(i)).y;
 end
+
+%Median filter x- and y- timeseries (smoothing/outlier reduction)
+
+%Take mean as overall body position
 position.centroid.x = mean(posX,2); 
 position.centroid.y = mean(posY,2);
 
@@ -61,6 +66,11 @@ posY = mean(posY,2);
 dx = [0; diff(posX)]; %Instantaneous change in x,y position
 dy = [0; diff(posY)]; 
 motor_ts.speed = distance(dx,dy)./dt; %Euclidean distance from last point/dt
+
+%Calculate view angle
+%Set center nosepoke to 0 deg
+%Use body axis (tail, body, something on head)
+% Use P = atan2(Y,X), where 
 
 %Validation Plots
 if params.plot_validation
